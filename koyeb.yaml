@@ -1,0 +1,28 @@
+name: telegram-quiz-bot
+service:
+  name: telegram-quiz-bot
+  ports:
+    - port: 5000
+      http:
+        routes:
+          - path: /
+  env:
+    - key: TELEGRAM_BOT_TOKEN
+      value: SECRET
+    - key: PORT
+      value: 5000
+    - key: EXECUTION_MODE
+      value: combined
+  scale:
+    horizontal:
+      min: 1
+      max: 1
+  health:
+    http:
+      path: /health
+      port: 5000
+    initial_delay: 10s
+    timeout: 5s
+    period: 30s
+    success_threshold: 1
+    failure_threshold: 3
